@@ -1,6 +1,24 @@
 {
   "devDependencies": {
-    "@types/node": "^22.5.0",
-    "ts-node": "^10.9.2"
-  }
+    "@types/node": "22.5.0",
+    "ts-node": "10.9.2"
+  },
+  "name": "tsrun",
+  "version": "1.0.0",
+  "description": "A wrapper script that guesses command fixes using the Gemini API.",
+  "main": "run.ts",
+  "dependencies": {
+    "typescript": "5.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zackareee/TSRun.git"
+  },
+  "author": "github@zackaree.com",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/Zackareee/TSRun/issues"
+  },
+  "homepage": "https://github.com/Zackareee/TSRun#readme"
 }
