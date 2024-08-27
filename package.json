@@ -5,7 +5,7 @@
   },
   "name": "tsrun",
   "version": "1.0.0",
-  "description": "TSRun is a wrapper script that guesses command fixes using the Gemini API.",
+  "description": "A wrapper script that guesses command fixes using the Gemini API.",
   "main": "run.ts",
   "dependencies": {
     "typescript": "5.5.4"
