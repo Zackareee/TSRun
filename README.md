@@ -20,7 +20,7 @@ npm install -g ts-node
 Finally, add a symlink to `run.ts` somewhere on your `$PATH`:
 
 ```shell
-ln -s $PWD/run.ts /usr/local/bin/r
+ln -s $PWD/run.ts /usr/local/bin/t
 ```
 
 Enjoy AI-assisted commandline autocompletion! :D
