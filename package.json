@@ -16,6 +16,7 @@
   },
   "author": "github@zackaree.com",
   "license": "UNLICENSED",
+  "private": true,
   "bugs": {
     "url": "https://github.com/Zackareee/TSRun/issues"
   },
