@@ -29,10 +29,9 @@ Enjoy AI-assisted commandline autocompletion! :D
 
 Simply call the shortcut for TSRun before any command.
 
-<img width="793" alt="image" src="https://gist.github.com/user-attachments/assets/c7d4ca4f-19b6-49fb-a06e-084fcde1fb06">
+![image](https://github.com/user-attachments/assets/53cfab2e-97d2-45ef-8f4b-6ce8034646e2)
 
-<img width="793" alt="image" src="https://gist.github.com/user-attachments/assets/df4ffd8e-2d25-4101-adec-be2cf5ea3d94">
-
+![image](https://github.com/user-attachments/assets/1ec43204-ff79-4800-b2f7-7759c8eb5a08)
 
 ### Contributions ###
 
