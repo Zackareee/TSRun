@@ -2,6 +2,8 @@
 
 import { execSync, ExecException } from "child_process";
 import readline from 'readline';
+import fs from 'fs';
+import os from 'os';
 
 
 const FgYellow: string = "\x1b[33m"
@@ -14,7 +16,7 @@ async function main() {
     let cmd: string = process.argv.slice(2).join(" ");
     while (true) {
         try {
-            const stdout: string = execSync(cmd, {encoding: "ascii"})
+            const stdout: string = execSync(cmd, {encoding: "ascii"});
             console.log(stdout);
             process.exit();
         }
@@ -24,7 +26,8 @@ async function main() {
             const stderr: string = error.stderr !== undefined ? error.stderr : "";
             let geminiText: [string];
             try {
-                geminiText = await callGemini(stderr, cmd);
+                const lastFiveLines = await lastFiveCommands();
+                geminiText = await callGemini(`my last five commands ran: ${lastFiveLines}, srderr: ${stderr}`, cmd);
             }
             catch (geminiError) {
                 console.log(geminiError)
@@ -56,6 +59,22 @@ async function main() {
     }
 }
 
+async function lastFiveCommands() {
+    if (fs.existsSync(`${os.homedir()}/.zsh_history`)) {
+        fs.readFile(`${os.homedir()}/.zsh_history`, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            const lines = data.split('\n');
+            const commands = `[${lines.slice(-10).join(", ")}]`;
+            console.log(commands)
+            return commands;
+        });
+    }
+    return ""
+}
+
 async function callGemini(error: string | Buffer, command: string) {
     try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
@@ -65,13 +84,14 @@ async function callGemini(error: string | Buffer, command: string) {
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `I have an error ${error}. my command is: ${command}. Provide a suggested command in the format of ["command"], replacing "command" with your suggestion. Have a list of minimum 1 suggestion and maximum 3. For example ["echo hello"] Provide the full command rather than correcting a single incorrect syntax, ie YES: ["rm foo.txt"] NO: ["rm"]. Return your command(s) as a valid array in the form ["echo hello", "echo Hello"] and nothing else. Do not preface any text with backticks`
+                            text: `I have an error; ${error}. my command is: ${command}. Provide a suggested command in the format of ["command"], replacing "command" with your suggestion. Have a list of minimum 1 suggestion and maximum 3. For example ["echo hello"] Provide the full command rather than correcting a single incorrect syntax, ie YES: ["rm foo.txt"] NO: ["rm"]. Return your command(s) as a valid array in the form ["echo hello", "echo Hello"] and nothing else. Do not preface any text with backticks. my last five commands may be entirely unrelated, they are provided to aid in returning a contextual result.`
                         }]
                     }]
                 })
             })
         const data = await response.json();
         const responseText: string = await data.candidates[0].content.parts[0].text
+        
         return JSON.parse(responseText);
     }
     catch (e) {
