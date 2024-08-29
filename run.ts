@@ -61,18 +61,12 @@ async function main() {
 
 async function lastFiveCommands() {
     if (fs.existsSync(`${os.homedir()}/.zsh_history`)) {
-        fs.readFile(`${os.homedir()}/.zsh_history`, 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            const lines = data.split('\n');
-            const commands = `[${lines.slice(-10).join(", ")}]`;
-            console.log(commands)
-            return commands;
-        });
+        const data: string = fs.readFileSync(`${os.homedir()}/.zsh_history`, {encoding: 'utf8'}) 
+        const lines: string[] = data.split('\n');
+        const commands: string = `[${lines.slice(-10).join(", ")}]`;
+        return commands;
     }
-    return ""
+    return "";
 }
 
 async function callGemini(error: string | Buffer, command: string) {
